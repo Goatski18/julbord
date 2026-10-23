@@ -9,7 +9,7 @@
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Figtree:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: ett tryckt julkort i granskogsgrönt. Snöfall bakom en centrerad "kortframsida",
    sedan praktisk info i ett tvåspaltigt rutnät, tradition som tidslinje, och avslut med OSA.
@@ -25,8 +25,8 @@
   --berry: #c8323c;
   --berry-deep: #9c1f2a;
   --line: rgba(246, 241, 231, .14);
-  --display: "Fraunces", "Georgia", "Times New Roman", serif;
-  --script: "Fraunces", "Georgia", "Times New Roman", serif;
+  --display: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --script: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
   --body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
   color-scheme: dark;
 }
@@ -69,6 +69,7 @@ body {
   overflow: hidden;
 }
 .sprig { display: block; margin: 0 auto 8px; width: 120px; max-width: 60%; height: auto; }
+.flag { display: block; width: 54px; height: auto; margin: 4px auto 2px; border-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,.35); }
 .eyebrow {
   font-family: var(--body);
   font-weight: 600;
@@ -80,8 +81,9 @@ body {
 }
 .script {
   font-family: var(--script);
+  font-weight: 600;
   font-size: clamp(26px, 4.5vw, 38px);
-  font-style: italic;
+  
   line-height: 1;
   color: var(--gold);
   margin: 18px 0 0;
@@ -90,8 +92,7 @@ body {
 h1 {
   font-family: var(--display);
   font-weight: 800;
-  font-variation-settings: "opsz" 144;
-  font-size: clamp(48px, 12vw, 128px);
+    font-size: clamp(48px, 12vw, 128px);
   line-height: .92;
   letter-spacing: -.02em;
   margin: 4px 0 0;
@@ -104,7 +105,7 @@ h1 .yr { color: var(--berry); display: block; }
   gap: 10px 18px;
   font-family: var(--display);
   font-size: clamp(20px, 3.4vw, 28px);
-  font-style: italic;
+  
 }
 .date-line .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
 .lede {
@@ -254,7 +255,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
 .timeline li.now { background: var(--berry-deep); }
 .timeline li.now .c { color: var(--snow); }
 .timeline .h { font-size: 14px; color: var(--snow); }
-.timeline .unk { color: var(--snow-dim); opacity: .6; font-style: italic; }
+.timeline .unk { color: var(--snow-dim); opacity: .6;  }
 .timeline li.now .h { color: var(--snow); }
 .note { font-size: 14px; color: var(--snow-dim); margin: 12px 0 0; }
 
@@ -265,7 +266,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
 }
 .closing .script { font-size: clamp(30px, 5vw, 44px); }
 .closing p { margin: 12px auto 0; max-width: 40ch; color: var(--snow-dim); }
-.closing .sig { font-family: var(--display); font-style: italic; font-size: 22px; color: var(--snow); margin-top: 18px; }
+.closing .sig { font-family: var(--display);  font-size: 22px; color: var(--snow); margin-top: 18px; }
 
 @media (max-width: 680px) {
   .info { grid-template-columns: minmax(0, 1fr); }
@@ -303,7 +304,11 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
       <circle cx="62" cy="34" r="4.5" fill="#c8323c"/>
       <circle cx="66" cy="41" r="4.5" fill="#9c1f2a"/>
     </svg>
-    <p class="eyebrow">Inbjudan · sedan 2013</p>
+    <svg class="flag" viewBox="0 0 16 10" aria-label="Svenska flaggan" role="img">
+      <rect width="16" height="10" fill="#006aa7"/>
+      <rect x="5" width="2" height="10" fill="#fecc00"/>
+      <rect y="4" width="16" height="2" fill="#fecc00"/>
+    </svg>
     <p class="script">Välkommen till</p>
     <h1>Julbordet <span class="yr">2026</span></h1>
     <div class="date-line">
@@ -358,7 +363,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
       <p class="eyebrow">Knytis</p>
       <h2 id="h-menu">Tinga vad ni tar med</h2>
     </div>
-    <p class="lede-left">Listan följer julbordets sju turer, men ta gärna från flera turer. Välj ert sällskap och tryck på det ni vill ta med. Den som tar en rätt tar också med tillbehöret, till exempel senap till skinkan.</p>
+    <p class="lede-left">Listan följer julbordets sju turer plus dryck, men ta gärna från flera. Välj ert sällskap och tryck på det ni vill ta med. Den som tar en rätt tar också med tillbehöret, till exempel senap till skinkan.</p>
     <div class="who-bar">
       <label for="who">Vi är</label>
       <select id="who">
@@ -466,7 +471,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
 // Adressen till Google Apps Script-webbappen som sparar tingningar och OSA i Martins Google Sheet.
 var API = "";
 
-var PARTIES = ["Adam", "Larsen", "Emil", "Jacob & Elin", "Alex & Synne", "Max & Ellen", "Mischa", "Martin & Linnea"];
+var PARTIES = ["Adam & Allyson", "Larsen", "Emil", "Jacob & Elin", "Alex & Synne", "Max & Ellen", "Mischa", "Martin & Linnea"];
 
 var COURSES = [
   { id: "sill", name: "Sill och ägg", items: [
@@ -485,7 +490,10 @@ var COURSES = [
   { id: "dessert", name: "Dessert", items: [
     ["ris", "Ris à la Malta", "med sås"], ["lussekatter", "Lussekatter"], ["pepparkakor", "Pepparkakor"] ] },
   { id: "godis", name: "Julgodis", items: [
-    ["knack", "Knäck"], ["ischoklad", "Ischoklad"], ["fudge", "Fudge eller kola"], ["notter", "Nötter, dadlar och klementiner"] ] }
+    ["knack", "Knäck"], ["ischoklad", "Ischoklad"], ["fudge", "Fudge eller kola"], ["notter", "Nötter, dadlar och klementiner"] ] },
+  { id: "dryck", name: "Dryck", drink: true, items: [
+    ["glogg", "Glögg", "med russin och mandel"], ["snaps", "Snaps"], ["julol", "Julöl"], ["vin", "Vin"],
+    ["julmust", "Julmust"], ["barndryck", "Saft eller läsk till barnen"] ] }
 ];
 
 (function () {
@@ -566,7 +574,7 @@ var COURSES = [
     COURSES.forEach(function (c, i) {
       var box = document.createElement("div"); box.className = "course";
       var h = document.createElement("h3");
-      var n = document.createElement("span"); n.className = "n"; n.textContent = "TUR " + (i + 1);
+      var n = document.createElement("span"); n.className = "n"; n.textContent = c.drink ? "TILL ALLT" : "TUR " + (i + 1);
       h.appendChild(n); h.appendChild(document.createTextNode(c.name));
       box.appendChild(h);
       var ul = document.createElement("ul");
