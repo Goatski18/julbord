@@ -69,7 +69,7 @@ body {
   overflow: hidden;
 }
 .sprig { display: block; margin: 0 auto 8px; width: 120px; max-width: 60%; height: auto; }
-.flag { display: block; width: 54px; height: auto; margin: 4px auto 2px; border-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,.35); }
+.garland { display: block; width: calc(100% + 2 * clamp(18px, 5vw, 56px)); max-width: none; height: auto; margin: calc(-1 * clamp(36px, 7vw, 72px) + 6px) calc(-1 * clamp(18px, 5vw, 56px)) 18px; opacity: .85; }
 .eyebrow {
   font-family: var(--body);
   font-weight: 600;
@@ -267,6 +267,10 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
 }
 .closing .script { font-size: clamp(30px, 5vw, 44px); }
 .closing p { margin: 12px auto 0; max-width: 40ch; color: var(--snow-dim); }
+.closing .star { display: block; width: 40px; height: 40px; margin: 0 auto 18px; }
+.gospel { margin: 0 auto 28px; max-width: 46ch; padding: 0; }
+.gospel p { margin: 0; font-size: 18px; line-height: 1.55; color: var(--snow); }
+.gospel cite { display: block; margin-top: 8px; font-style: normal; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
 .closing .sig { font-family: var(--display);  font-size: 22px; color: var(--snow); margin-top: 18px; }
 
 @media (max-width: 680px) {
@@ -292,6 +296,10 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
 <main class="wrap">
 
   <header class="card">
+    <svg class="garland" viewBox="0 0 800 70" aria-hidden="true">
+      <path d="M0 8 Q400 90 800 8" fill="none" stroke="#d9b45b" stroke-width="1.2" opacity=".7"/>
+      <g transform="translate(49.1 17.9)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(106.3 27.1)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(163.4 34.6)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(220.6 40.5)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(277.7 44.7)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(334.9 47.2)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(392.0 48.0)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(449.1 47.2)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(506.3 44.7)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(563.4 40.5)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(620.6 34.6)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(677.7 27.1)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g><g transform="translate(734.9 17.9)"><rect width="16" height="10" fill="#006aa7"/><rect x="5" width="2.4" height="10" fill="#fecc00"/><rect y="3.8" width="16" height="2.4" fill="#fecc00"/></g>
+    </svg>
     <svg class="sprig" viewBox="0 0 120 48" aria-hidden="true">
       <g fill="none" stroke="#d9b45b" stroke-width="1.6" stroke-linecap="round">
         <path d="M60 40 C 40 34, 22 30, 6 18"/>
@@ -304,11 +312,6 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
       <circle cx="54" cy="38" r="4.5" fill="#c8323c"/>
       <circle cx="62" cy="34" r="4.5" fill="#c8323c"/>
       <circle cx="66" cy="41" r="4.5" fill="#9c1f2a"/>
-    </svg>
-    <svg class="flag" viewBox="0 0 16 10" aria-label="Svenska flaggan" role="img">
-      <rect width="16" height="10" fill="#006aa7"/>
-      <rect x="5" width="2" height="10" fill="#fecc00"/>
-      <rect y="4" width="16" height="2" fill="#fecc00"/>
     </svg>
     <p class="script">Välkommen till</p>
     <h1>Julbordet <span class="yr">2026</span></h1>
@@ -334,7 +337,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
       <div>
         <dt>När</dt>
         <dd>Lördag 12 december 2026
-          <small>Start kl 15.00. Tidig start så att barnen hinner äta i lugn och ro.</small>
+          <small>Dagen före tredje advent. Start kl 15.00. Tidig start så att barnen hinner äta i lugn och ro.</small>
         </dd>
       </div>
       <div>
@@ -460,6 +463,11 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
   </section>
 
   <footer class="closing">
+    <svg class="star" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0 L23 17 L40 20 L23 23 L20 40 L17 23 L0 20 L17 17 Z" fill="#d9b45b"/><path d="M20 8 L21.5 18.5 L32 20 L21.5 21.5 L20 32 L18.5 21.5 L8 20 L18.5 18.5 Z" fill="#f6f1e7" opacity=".9" transform="rotate(45 20 20)"/></svg>
+    <blockquote class="gospel">
+      <p>”Se, jag bådar eder en stor glädje, som skall vederfaras hela folket. Ty i dag har eder en Frälsare blivit född i Davids stad, och han är Kristus, Herren.”</p>
+      <cite>Lukas 2:10–11</cite>
+    </blockquote>
     <p class="script">God Jul!</p>
     <p>Vi ses på Lidingö!</p>
     <p class="sig">Varma hälsningar, Martin &amp; Linnea</p>
