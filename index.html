@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Julbordet 2026</title>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: ett tryckt julkort i granskogsgrönt. Snöfall bakom en centrerad "kortframsida",
+   sedan praktisk info i ett tvåspaltigt rutnät, tradition som tidslinje, och avslut med OSA.
+   Medvetet ett enda mörkt tema, som ett kort i papper. */
+:root {
+  --forest: #0f2a1f;
+  --forest-2: #163828;
+  --forest-3: #1d4632;
+  --snow: #f6f1e7;
+  --snow-dim: #c9d2c6;
+  --gold: #d9b45b;
+  --gold-soft: rgba(217, 180, 91, .18);
+  --berry: #c8323c;
+  --berry-deep: #9c1f2a;
+  --line: rgba(246, 241, 231, .14);
+  --display: "Fraunces", "Georgia", "Times New Roman", serif;
+  --script: "Fraunces", "Georgia", "Times New Roman", serif;
+  --body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--forest); }
+body {
+  margin: 0;
+  background: var(--forest);
+  color: var(--snow);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+#snow {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 980px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+}
+
+/* ---------- Kortframsida ---------- */
+.card {
+  margin-top: clamp(20px, 5vw, 56px);
+  border: 1px solid var(--gold);
+  outline: 1px solid var(--gold);
+  outline-offset: 6px;
+  border-radius: 4px;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(217,180,91,.16), transparent 60%),
+    linear-gradient(180deg, var(--forest-2), var(--forest));
+  text-align: center;
+  padding: clamp(36px, 7vw, 72px) clamp(18px, 5vw, 56px) clamp(32px, 6vw, 56px);
+  position: relative;
+  overflow: hidden;
+}
+.sprig { display: block; margin: 0 auto 8px; width: 120px; max-width: 60%; height: auto; }
+.eyebrow {
+  font-family: var(--body);
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--gold);
+  margin: 0;
+}
+.script {
+  font-family: var(--script);
+  font-size: clamp(26px, 4.5vw, 38px);
+  font-style: italic;
+  line-height: 1;
+  color: var(--gold);
+  margin: 18px 0 0;
+  font-weight: 400;
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(48px, 12vw, 128px);
+  line-height: .92;
+  letter-spacing: -.02em;
+  margin: 4px 0 0;
+  text-wrap: balance;
+}
+h1 .yr { color: var(--berry); display: block; }
+.date-line {
+  margin: 26px auto 0;
+  display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 10px 18px;
+  font-family: var(--display);
+  font-size: clamp(20px, 3.4vw, 28px);
+  font-style: italic;
+}
+.date-line .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.lede {
+  max-width: 34em; margin: 22px auto 0;
+  color: var(--snow-dim);
+  text-wrap: pretty;
+}
+.countdown {
+  margin: 30px auto 0;
+  display: inline-grid; grid-auto-flow: column; gap: 10px;
+}
+.tick {
+  min-width: 72px;
+  padding: 10px 8px 8px;
+  border-radius: 6px;
+  background: var(--forest);
+  border: 1px solid var(--line);
+}
+.tick b {
+  display: block;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tick span { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--snow-dim); }
+
+/* ---------- Sektioner ---------- */
+section { margin-top: 64px; }
+h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(28px, 4.4vw, 40px);
+  line-height: 1.1;
+  margin: 6px 0 0;
+  text-wrap: balance;
+}
+.sec-head { display: flex; flex-direction: column; gap: 2px; margin-bottom: 24px; }
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.info > div {
+  min-width: 0;
+  padding: 22px 22px 20px;
+  border-top: 2px solid var(--berry);
+  background: var(--forest-2);
+  border-radius: 0 0 6px 6px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.info dt {
+  font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold);
+}
+.info dd { margin: 0; font-family: var(--display); font-size: 22px; line-height: 1.3; }
+.lede-left { margin: 0 0 18px; max-width: 62ch; color: var(--snow-dim); }
+.info dd small { display: block; font-family: var(--body); font-size: 15px; color: var(--snow-dim); margin-top: 4px; }
+
+.todo {
+  display: inline-block;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gold);
+  border: 1px dashed var(--gold);
+  background: var(--gold-soft);
+  border-radius: 4px;
+  padding: 1px 8px;
+}
+.copy {
+  align-self: flex-start;
+  margin-top: 6px;
+  font: 600 13px var(--body);
+  color: var(--snow);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+.copy:hover { border-color: var(--gold); color: var(--gold); }
+.copy:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* Tinga */
+.who-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 20px; }
+.who-bar label { font-weight: 600; }
+select, input[type=text], input[type=number] {
+  font: 16px var(--body); color: var(--snow); background: var(--forest);
+  border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-width: 0;
+}
+select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.status { font-size: 14px; color: var(--snow-dim); margin: 0 0 18px; }
+.status.warn { color: var(--gold); }
+.courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.course { background: var(--forest-2); border-radius: 8px; padding: 18px 18px 14px; min-width: 0; }
+.course h3 { margin: 0 0 10px; font-family: var(--display); font-weight: 600; font-size: 21px; display: flex; align-items: baseline; gap: 10px; }
+.course h3 .n { font-size: 14px; color: var(--gold); font-family: var(--body); letter-spacing: .1em; }
+.course ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.course li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); min-width: 0; }
+.course li:first-child { border-top: 0; }
+.course .dish { min-width: 0; }
+.course .dish small { display: block; font-size: 13px; color: var(--snow-dim); }
+.course .dish.taken { color: var(--snow-dim); }
+.tag { flex: none; font: 600 13px var(--body); border-radius: 999px; padding: 4px 12px; border: 1px solid var(--line); background: transparent; color: var(--snow); cursor: pointer; white-space: nowrap; }
+.tag.free:hover { border-color: var(--gold); color: var(--gold); }
+.tag.mine { background: var(--berry); border-color: var(--berry); }
+.tag.other { cursor: default; color: var(--gold); border-color: transparent; padding-right: 0; }
+.tag:disabled { opacity: .5; cursor: default; }
+.extra-form { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.extra-form input[type=text] { flex: 1 1 220px; }
+.btn { font: 600 15px var(--body); color: var(--snow); background: var(--berry); border: 0; border-radius: 999px; padding: 9px 20px; cursor: pointer; }
+.btn:hover { background: var(--berry-deep); }
+.btn:disabled { opacity: .5; cursor: default; }
+/* Gäster */
+.guests {
+  background: var(--forest-2);
+  border-radius: 8px;
+  padding: 28px clamp(18px, 4vw, 32px);
+  display: grid; gap: 14px;
+}
+.guests p { margin: 0; color: var(--snow-dim); max-width: 60ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  font-family: var(--display); font-size: 19px;
+  padding: 6px 16px; border-radius: 999px;
+  background: var(--forest-3); border: 1px solid var(--line);
+}
+
+/* Tidslinje */
+.timeline {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+}
+.timeline li {
+  background: var(--forest);
+  padding: 16px 14px;
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 0;
+}
+.timeline .y { font-family: var(--display); font-weight: 600; font-size: 22px; font-variant-numeric: tabular-nums; }
+.timeline .c { font-size: 14px; color: var(--snow-dim); }
+.timeline li.now { background: var(--berry-deep); }
+.timeline li.now .c { color: var(--snow); }
+.timeline .h { font-size: 14px; color: var(--snow); }
+.timeline .unk { color: var(--snow-dim); opacity: .6; font-style: italic; }
+.timeline li.now .h { color: var(--snow); }
+.note { font-size: 14px; color: var(--snow-dim); margin: 12px 0 0; }
+
+/* Avslut */
+.closing {
+  text-align: center;
+  padding: 48px 16px 8px;
+}
+.closing .script { font-size: clamp(30px, 5vw, 44px); }
+.closing p { margin: 12px auto 0; max-width: 40ch; color: var(--snow-dim); }
+.closing .sig { font-family: var(--display); font-style: italic; font-size: 22px; color: var(--snow); margin-top: 18px; }
+
+@media (max-width: 680px) {
+  .info { grid-template-columns: minmax(0, 1fr); }
+  .tick { min-width: 60px; }
+  .tick b { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) { #snow { display: none; } }
+
+/* OSA */
+.osa {
+  background: var(--forest-2); border: 1px solid var(--gold); border-radius: 8px;
+  padding: 24px clamp(18px, 4vw, 32px); display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.osa .full { grid-column: 1 / -1; }
+.osa label { display: grid; gap: 6px; font-size: 14px; font-weight: 600; min-width: 0; }
+.osa .msg { margin: 0; color: var(--gold); }
+</style>
+
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main class="wrap">
+
+  <header class="card">
+    <svg class="sprig" viewBox="0 0 120 48" aria-hidden="true">
+      <g fill="none" stroke="#d9b45b" stroke-width="1.6" stroke-linecap="round">
+        <path d="M60 40 C 40 34, 22 30, 6 18"/>
+        <path d="M60 40 C 80 34, 98 30, 114 18"/>
+        <path d="M44 35 l-6 -10 M30 30 l-5 -11 M18 25 l-4 -10"/>
+        <path d="M44 35 l-11 3 M30 30 l-11 2 M18 25 l-10 1"/>
+        <path d="M76 35 l6 -10 M90 30 l5 -11 M102 25 l4 -10"/>
+        <path d="M76 35 l11 3 M90 30 l11 2 M102 25 l10 1"/>
+      </g>
+      <circle cx="54" cy="38" r="4.5" fill="#c8323c"/>
+      <circle cx="62" cy="34" r="4.5" fill="#c8323c"/>
+      <circle cx="66" cy="41" r="4.5" fill="#9c1f2a"/>
+    </svg>
+    <p class="eyebrow">Inbjudan · sedan 2013</p>
+    <p class="script">Välkommen till</p>
+    <h1>Julbordet <span class="yr">2026</span></h1>
+    <div class="date-line">
+      <span>Lördag 12 december</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span>kl 15.00</span>
+    </div>
+    <p class="lede">Sill, snaps, Jansson, julbord! Välkomna på julbord på Lidingö!</p>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="tick"><b id="cd-d">–</b><span>dagar</span></div>
+      <div class="tick"><b id="cd-h">–</b><span>timmar</span></div>
+      <div class="tick"><b id="cd-m">–</b><span>minuter</span></div>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-info">
+    <div class="sec-head">
+      <p class="eyebrow">Praktiskt</p>
+      <h2 id="h-info">Var, när och hur</h2>
+    </div>
+    <dl class="info">
+      <div>
+        <dt>När</dt>
+        <dd>Lördag 12 december 2026
+          <small>Start kl 15.00. Tidig start så att barnen hinner äta i lugn och ro.</small>
+        </dd>
+      </div>
+      <div>
+        <dt>Var</dt>
+        <dd><span id="address">Svedjevägen 19, Lidingö</span>
+
+        </dd>
+        <button class="copy" id="copy-btn" type="button">Kopiera adress</button>
+      </div>
+      <div>
+        <dt>Maten</dt>
+        <dd>Knytis med allt det klassiska
+          <small>Knytis! Tinga vad ni tar med i listan längre ner.</small>
+        </dd>
+      </div>
+      <div>
+        <dt>Barnen</dt>
+        <dd>Barnen är varmt välkomna
+          <small>Ta med alla barn. Hör av dig om något behövs, till exempel barnstol eller en plats för vilan.</small>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="h-menu" id="tinga">
+    <div class="sec-head">
+      <p class="eyebrow">Knytis</p>
+      <h2 id="h-menu">Tinga vad ni tar med</h2>
+    </div>
+    <p class="lede-left">Listan följer julbordets sju turer, men ta gärna från flera turer. Välj ert sällskap och tryck på det ni vill ta med. Den som tar en rätt tar också med tillbehöret, till exempel senap till skinkan.</p>
+    <div class="who-bar">
+      <label for="who">Vi är</label>
+      <select id="who">
+        <option value="">Välj sällskap</option>
+      </select>
+    </div>
+    <p class="status" id="status" role="status"></p>
+    <div class="courses" id="courses"></div>
+    <form class="extra-form" id="extra-form">
+      <input type="text" id="extra-name" maxlength="80" placeholder="Något annat ni vill ta med" aria-label="Egen rätt">
+      <select id="extra-group" aria-label="Tur"></select>
+      <button class="btn" type="submit">Lägg till</button>
+    </form>
+  </section>
+
+  <section aria-labelledby="h-guests">
+    <div class="sec-head">
+      <p class="eyebrow">Gästerna</p>
+      <h2 id="h-guests">Kring bordet i år</h2>
+    </div>
+    <div class="guests">
+      <p>Tolv vuxna gäster och en hel drös barn.</p>
+      <div class="chips" id="guest-chips">
+        <span class="chip">Alex</span>
+        <span class="chip">Synne</span>
+        <span class="chip">Larsen</span>
+        <span class="chip">Emil</span>
+        <span class="chip">Adam</span>
+        <span class="chip">Allyson</span>
+        <span class="chip">Jacob</span>
+        <span class="chip">Elin</span>
+        <span class="chip">Edvin</span>
+        <span class="chip">Simone</span>
+        <span class="chip">Max</span>
+        <span class="chip">Ellen</span>
+        <span class="chip">+ alla barn</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-trad">
+    <div class="sec-head">
+      <p class="eyebrow">Traditionen</p>
+      <h2 id="h-trad">Ett julbord, många kök</h2>
+    </div>
+    <ol class="timeline">
+      <li><span class="y">2013</span><span class="c">Uppsala</span><span class="h">Värd: Martin & Edvin</span></li>
+      <li><span class="y">2014</span><span class="c">Uppsala</span><span class="h">Värd: Martin & Edvin</span></li>
+      <li><span class="y">2015</span><span class="c">Uppsala</span><span class="h">Värd: Larsen</span></li>
+      <li><span class="y">2016</span><span class="c">Uppsala</span><span class="h">Värd: Max</span></li>
+      <li><span class="y">2017</span><span class="c">Uppsala</span><span class="h">Värd: Max & Ellen</span></li>
+      <li><span class="y">2018</span><span class="c">Örebro</span><span class="h">Värd: Alex &amp; Synne</span></li>
+      <li><span class="y">2019</span><span class="c">Stockholm</span><span class="h">Värd: Martin</span></li>
+      <li><span class="y">2020</span><span class="c">Örebro</span><span class="h">Värd: Max & Elin</span></li>
+      <li><span class="y">2021</span><span class="c">Stockholm</span><span class="h">Värd: Adam</span></li>
+      <li><span class="y">2022</span><span class="c">Stockholm</span><span class="h">Värd: Martin &amp; Linnea</span></li>
+      <li><span class="y">2023</span><span class="c">Örebro</span><span class="h">Värd: Jacob & Elin</span></li>
+      <li><span class="y">2024</span><span class="c">Örebro</span><span class="h">Värd: Alex & Synne</span></li>
+      <li><span class="y">2025</span><span class="c">Örebro</span><span class="h">Värd: Jacob & Elin</span></li>
+      <li class="now"><span class="y">2026</span><span class="c">Lidingö</span><span class="h">Värd: Martin &amp; Linnea</span></li>
+    </ol>
+    <p class="note">Traditionen startade 2013 i Uppsala.</p>
+  </section>
+
+  <section aria-labelledby="h-osa" id="osa">
+    <div class="sec-head">
+      <p class="eyebrow">OSA senast lördag 31 oktober</p>
+      <h2 id="h-osa">Kommer ni?</h2>
+    </div>
+    <form class="osa" id="osa-form">
+      <label>Sällskap
+        <select id="osa-who" required><option value="">Välj sällskap</option></select>
+      </label>
+      <label>Kommer ni?
+        <select id="osa-coming" required>
+          <option value="">Välj</option>
+          <option>Ja</option>
+          <option>Nej</option>
+        </select>
+      </label>
+      <label>Antal vuxna
+        <input type="number" id="osa-adults" min="0" max="20" value="2">
+      </label>
+      <label>Antal barn
+        <input type="number" id="osa-kids" min="0" max="20" value="0">
+      </label>
+      <label class="full">Allergier eller annat vi ska veta
+        <input type="text" id="osa-notes" maxlength="300">
+      </label>
+      <div class="full"><button class="btn" type="submit">Skicka svar</button></div>
+      <p class="msg full" id="osa-msg" role="status"></p>
+    </form>
+  </section>
+
+  <footer class="closing">
+    <p class="script">God Jul!</p>
+    <p>Vi ses på Lidingö!</p>
+    <p class="sig">Varma hälsningar, Martin &amp; Linnea</p>
+  </footer>
+
+</main>
+
+<script>
+// Adressen till Google Apps Script-webbappen som sparar tingningar och OSA i Martins Google Sheet.
+var API = "";
+
+var PARTIES = ["Adam", "Larsen", "Emil", "Jacob & Elin", "Alex & Synne", "Max & Ellen", "Martin & Linnea"];
+
+var COURSES = [
+  { id: "sill", name: "Sill och ägg", items: [
+    ["sill-inlagd", "Inlagd sill"], ["sill-senap", "Senapssill"], ["sill-lok", "Löksill eller matjessill"],
+    ["stromming", "Stekt inlagd strömming"], ["agg", "Ägghalvor med räkor eller kaviar"] ] },
+  { id: "fisk", name: "Lax och fisk", items: [
+    ["gravlax", "Gravad lax", "med hovmästarsås"], ["rokt-lax", "Rökt lax", "kall- eller varmrökt"], ["skagen", "Skagenröra"] ] },
+  { id: "kallt", name: "Kallskuret", items: [
+    ["skinka", "Julskinka", "med senap"], ["pastej", "Leverpastej"], ["sylta", "Sylta"],
+    ["korv-kall", "Kall korv och rökt kött"], ["rodbetor", "Rödbetssallad"] ] },
+  { id: "varmt", name: "Varmt", items: [
+    ["kottbullar", "Köttbullar"], ["prinskorv", "Prinskorv"], ["jansson", "Janssons frestelse"],
+    ["revben", "Revbensspjäll"], ["potatis", "Kokt potatis"], ["rodkal", "Rödkål"], ["gronkal", "Brysselkål eller grönkål"] ] },
+  { id: "ost", name: "Ost och bröd", items: [
+    ["ost", "Ostbricka", "julost och lagrad ost"], ["vortbrod", "Vörtbröd"], ["knacke", "Knäckebröd och smör"], ["kex", "Kex och marmelad"] ] },
+  { id: "dessert", name: "Dessert", items: [
+    ["ris", "Ris à la Malta", "med sås"], ["lussekatter", "Lussekatter"], ["pepparkakor", "Pepparkakor"] ] },
+  { id: "godis", name: "Julgodis", items: [
+    ["knack", "Knäck"], ["ischoklad", "Ischoklad"], ["fudge", "Fudge eller kola"], ["notter", "Nötter, dadlar och klementiner"] ] }
+];
+
+(function () {
+  var state = { claims: {}, extras: [] };
+  var busy = false;
+  var whoSel = document.getElementById("who");
+  var osaWho = document.getElementById("osa-who");
+  var statusEl = document.getElementById("status");
+  var courseEl = document.getElementById("courses");
+  var extraForm = document.getElementById("extra-form");
+  var extraGroup = document.getElementById("extra-group");
+
+  PARTIES.forEach(function (p) {
+    [whoSel, osaWho].forEach(function (sel) { var o = document.createElement("option"); o.textContent = p; sel.appendChild(o); });
+  });
+  COURSES.forEach(function (c) { var o = document.createElement("option"); o.value = c.id; o.textContent = c.name; extraGroup.appendChild(o); });
+  try { var saved = localStorage.getItem("julbord-who"); if (saved && PARTIES.indexOf(saved) >= 0) { whoSel.value = saved; osaWho.value = saved; } } catch (e) {}
+  whoSel.addEventListener("change", function () {
+    try { localStorage.setItem("julbord-who", whoSel.value); } catch (e) {}
+    if (!osaWho.value) osaWho.value = whoSel.value;
+    render();
+  });
+
+  function setStatus(text, warn) { statusEl.textContent = text; statusEl.className = "status" + (warn ? " warn" : ""); }
+
+  function apply(data) {
+    state.claims = {};
+    (data.claims || []).forEach(function (c) { state.claims[c.item] = c.who; });
+    state.extras = data.extras || [];
+  }
+
+  function call(body) {
+    return fetch(API, { method: "POST", body: JSON.stringify(body) }).then(function (r) { return r.json(); });
+  }
+
+  function load() {
+    if (!API) { setStatus("Tingningen öppnar snart. Listan visar vad som brukar finnas på bordet.", true); render(); return; }
+    setStatus("Hämtar listan …");
+    fetch(API).then(function (r) { return r.json(); }).then(function (d) { apply(d); setStatus(""); render(); })
+      .catch(function () { setStatus("Kunde inte hämta listan just nu. Ladda om sidan om en stund.", true); render(); });
+  }
+
+  function act(body) {
+    if (busy) return;
+    busy = true; render();
+    call(body).then(function (d) {
+      if (d.claims) apply(d);
+      if (d.ok === false && d.error === "taken") setStatus("Någon hann före er. Listan är uppdaterad.", true); else setStatus("");
+    }).catch(function () { setStatus("Det gick inte att spara. Försök igen om en stund.", true); })
+      .then(function () { busy = false; render(); });
+  }
+
+  function row(id, name, sub, who, onFree, onMine) {
+    var li = document.createElement("li");
+    var d = document.createElement("span"); d.className = "dish" + (who ? " taken" : ""); d.textContent = name;
+    if (sub) { var sm = document.createElement("small"); sm.textContent = sub; d.appendChild(sm); }
+    li.appendChild(d);
+    var b = document.createElement("button"); b.type = "button";
+    var me = whoSel.value;
+    if (!who) {
+      b.className = "tag free"; b.textContent = "Vi tar den";
+      b.disabled = busy || !API;
+      b.addEventListener("click", function () { if (!whoSel.value) { setStatus("Välj ert sällskap först.", true); whoSel.focus(); return; } onFree(); });
+    } else if (who === me) {
+      b.className = "tag mine"; b.textContent = me + " ✕"; b.title = "Släpp";
+      b.setAttribute("aria-label", "Släpp " + name);
+      b.disabled = busy;
+      b.addEventListener("click", onMine);
+    } else {
+      b.className = "tag other"; b.textContent = who; b.disabled = true;
+    }
+    li.appendChild(b);
+    return li;
+  }
+
+  function render() {
+    courseEl.textContent = "";
+    COURSES.forEach(function (c, i) {
+      var box = document.createElement("div"); box.className = "course";
+      var h = document.createElement("h3");
+      var n = document.createElement("span"); n.className = "n"; n.textContent = "TUR " + (i + 1);
+      h.appendChild(n); h.appendChild(document.createTextNode(c.name));
+      box.appendChild(h);
+      var ul = document.createElement("ul");
+      c.items.forEach(function (it) {
+        var id = it[0];
+        ul.appendChild(row(id, it[1], it[2], state.claims[id],
+          function () { act({ action: "claim", item: id, who: whoSel.value }); },
+          function () { act({ action: "unclaim", item: id, who: whoSel.value }); }));
+      });
+      state.extras.filter(function (x) { return x.group === c.id; }).forEach(function (x) {
+        ul.appendChild(row(x.id, x.name, "eget tillägg", x.who, null,
+          function () { act({ action: "unextra", id: x.id, who: whoSel.value }); }));
+      });
+      box.appendChild(ul);
+      courseEl.appendChild(box);
+    });
+    extraForm.querySelector("button").disabled = busy || !API;
+  }
+
+  extraForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("extra-name").value.trim();
+    if (!whoSel.value) { setStatus("Välj ert sällskap först.", true); whoSel.focus(); return; }
+    if (!name) return;
+    document.getElementById("extra-name").value = "";
+    act({ action: "extra", group: extraGroup.value, name: name, who: whoSel.value });
+  });
+
+  var osaForm = document.getElementById("osa-form"), osaMsg = document.getElementById("osa-msg");
+  osaForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!API) { osaMsg.textContent = "Svaren öppnar snart. Hör av dig till Martin så länge."; return; }
+    var btn = osaForm.querySelector("button"); btn.disabled = true; osaMsg.textContent = "Skickar …";
+    call({ action: "osa", who: osaWho.value, coming: document.getElementById("osa-coming").value,
+      adults: document.getElementById("osa-adults").value, kids: document.getElementById("osa-kids").value,
+      notes: document.getElementById("osa-notes").value })
+      .then(function () { osaMsg.textContent = "Tack! Ert svar är sparat."; })
+      .catch(function () { osaMsg.textContent = "Det gick inte att skicka. Försök igen om en stund."; })
+      .then(function () { btn.disabled = false; });
+  });
+
+  load();
+})();
+
+(function () {
+  // Nedräkning till start kl 15.00 svensk tid
+  var target = new Date("2026-12-12T15:00:00+01:00").getTime();
+  var d = document.getElementById("cd-d"), h = document.getElementById("cd-h"), m = document.getElementById("cd-m");
+  function tick() {
+    var diff = Math.max(0, target - Date.now());
+    d.textContent = Math.floor(diff / 864e5);
+    h.textContent = Math.floor(diff / 36e5) % 24;
+    m.textContent = Math.floor(diff / 6e4) % 60;
+  }
+  tick(); setInterval(tick, 30000);
+
+  // Kopiera adress
+  var btn = document.getElementById("copy-btn");
+  btn.addEventListener("click", function () {
+    var text = document.getElementById("address").textContent.trim();
+    var done = function () { btn.textContent = "Kopierad"; setTimeout(function () { btn.textContent = "Kopiera adress"; }, 1800); };
+    try {
+      navigator.clipboard.writeText(text).then(done, select);
+    } catch (e) { select(); }
+    function select() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById("address"));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+  });
+
+  // Snöfall
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var c = document.getElementById("snow"), x = c.getContext("2d"), flakes = [], W, H;
+  function size() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(Math.min(140, W * H / 9000));
+    flakes = [];
+    for (var i = 0; i < n; i++) flakes.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2.2 + .6, s: Math.random() * .6 + .25, w: Math.random() * Math.PI * 2 });
+  }
+  size(); window.addEventListener("resize", size);
+  (function loop() {
+    x.clearRect(0, 0, W, H);
+    x.fillStyle = "rgba(246,241,231,.8)";
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      f.y += f.s; f.w += .01; f.x += Math.sin(f.w) * .3;
+      if (f.y > H + 4) { f.y = -4; f.x = Math.random() * W; }
+      x.beginPath(); x.arc(f.x, f.y, f.r, 0, 6.283); x.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+
+</body>
+</html>
