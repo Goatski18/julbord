@@ -21,9 +21,10 @@ function state() {
     extras: rows("extras").map(function (r) { return { id: String(r[0]), group: String(r[1]), name: String(r[2]), who: String(r[3]) }; })
   };
 }
-function removeWhere(k, col, value) {
+function removeWhere(k, col, value, whoCol, who) {
   var sh = tab(k), v = sh.getDataRange().getValues();
-  for (var i = v.length - 1; i >= 1; i--) if (String(v[i][col]) === value) sh.deleteRow(i + 1);
+  for (var i = v.length - 1; i >= 1; i--)
+    if (String(v[i][col]) === value && String(v[i][whoCol]) === who) sh.deleteRow(i + 1);
 }
 
 function doGet() { return out(state()); }
@@ -35,16 +36,19 @@ function doPost(e) {
     var b = JSON.parse(e.postData.contents), now = new Date();
     if (b.action === "claim") {
       var taken = rows("claims").some(function (r) { return String(r[0]) === b.item; });
-      if (taken) return out({ ok: false, error: "taken", claims: state().claims, extras: state().extras });
+      if (taken) { var st = state(); st.ok = false; st.error = "taken"; return out(st); }
       tab("claims").appendRow([clean(b.item), clean(b.who), now]);
     } else if (b.action === "unclaim") {
-      removeWhere("claims", 0, String(b.item));
+      removeWhere("claims", 0, String(b.item), 1, String(b.who));
     } else if (b.action === "extra") {
       tab("extras").appendRow([Utilities.getUuid(), clean(b.group), clean(b.name), clean(b.who), now]);
     } else if (b.action === "unextra") {
-      removeWhere("extras", 0, String(b.id));
+      removeWhere("extras", 0, String(b.id), 3, String(b.who));
     } else if (b.action === "osa") {
-      tab("osa").appendRow([now, clean(b.who), clean(b.coming), Number(b.adults) || 0, Number(b.kids) || 0, clean(b.notes)]);
+      var row = [now, clean(b.who), clean(b.coming), Number(b.adults) || 0, Number(b.kids) || 0, clean(b.notes)];
+      var sh = tab("osa"), v = sh.getDataRange().getValues(), at = -1;
+      for (var i = 1; i < v.length; i++) if (String(v[i][1]) === row[1]) at = i + 1;
+      if (at > 0) sh.getRange(at, 1, 1, row.length).setValues([row]); else sh.appendRow(row);
       return out({ ok: true });
     }
     var s = state(); s.ok = true; return out(s);

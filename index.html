@@ -81,7 +81,6 @@ body {
 }
 .script {
   font-family: var(--script);
-  font-weight: 600;
   font-size: clamp(26px, 4.5vw, 38px);
   
   line-height: 1;
@@ -218,6 +217,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
 .tag.mine { background: var(--berry); border-color: var(--berry); }
 .tag.other { cursor: default; color: var(--gold); border-color: transparent; padding-right: 0; }
 .tag:disabled { opacity: .5; cursor: default; }
+.tag.other:disabled { opacity: 1; }
 .extra-form { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .extra-form input[type=text] { flex: 1 1 220px; }
 .btn { font: 600 15px var(--body); color: var(--snow); background: var(--berry); border: 0; border-radius: 999px; padding: 9px 20px; cursor: pointer; }
@@ -321,7 +321,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
       <span>kl 15.00</span>
     </div>
     <p class="lede">Sill, snaps, Jansson, julbord! Välkomna på julbord på Lidingö!</p>
-    <div class="countdown" id="countdown" aria-live="polite">
+    <div class="countdown" id="countdown">
       <div class="tick"><b id="cd-d">–</b><span>dagar</span></div>
       <div class="tick"><b id="cd-h">–</b><span>timmar</span></div>
       <div class="tick"><b id="cd-m">–</b><span>minuter</span></div>
@@ -368,7 +368,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
       <p class="eyebrow">Knytis</p>
       <h2 id="h-menu">Tinga vad ni tar med</h2>
     </div>
-    <p class="lede-left">Listan följer julbordets sju turer plus dryck, men ta gärna från flera. Välj ert sällskap och tryck på det ni vill ta med. Den som tar en rätt tar också med tillbehöret, till exempel senap till skinkan.</p>
+    <p class="lede-left">Listan följer julbordets sju turer plus dryck, och ni får gärna ta från flera turer. Välj ert sällskap och tryck på det ni vill ta med. Om tillbehöret till er rätt inte står på listan tar ni med det också.</p>
     <p class="motto">Tinga med ansvar, besinning och julvilja. Ta det ni verkligen tänker fixa, lämna något åt de andra och hjälp till där det gapar tomt.</p>
     <div class="who-bar">
       <label for="who">Vi är</label>
@@ -502,7 +502,7 @@ var COURSES = [
 
 (function () {
   var state = { claims: {}, extras: [] };
-  var busy = false;
+  var busy = false, loaded = false;
   var whoSel = document.getElementById("who");
   var osaWho = document.getElementById("osa-who");
   var statusEl = document.getElementById("status");
@@ -517,7 +517,7 @@ var COURSES = [
   try { var saved = localStorage.getItem("julbord-who"); if (saved && PARTIES.indexOf(saved) >= 0) { whoSel.value = saved; osaWho.value = saved; } } catch (e) {}
   whoSel.addEventListener("change", function () {
     try { localStorage.setItem("julbord-who", whoSel.value); } catch (e) {}
-    if (!osaWho.value) osaWho.value = whoSel.value;
+    if (whoSel.value) osaWho.value = whoSel.value;
     render();
   });
 
@@ -536,16 +536,18 @@ var COURSES = [
   function load() {
     if (!API) { setStatus("Tingningen öppnar snart. Listan visar vad som brukar finnas på bordet.", true); render(); return; }
     setStatus("Hämtar listan …");
-    fetch(API).then(function (r) { return r.json(); }).then(function (d) { apply(d); setStatus(""); render(); })
-      .catch(function () { setStatus("Kunde inte hämta listan just nu. Ladda om sidan om en stund.", true); render(); });
+    fetch(API).then(function (r) { return r.json(); }).then(function (d) { apply(d); loaded = true; setStatus(""); render(); })
+      .catch(function () { setStatus("Kunde inte hämta listan just nu, så ingenting går att tinga. Ladda om sidan om en stund.", true); render(); });
   }
 
-  function act(body) {
+  function act(body, onOk) {
     if (busy) return;
     busy = true; render();
     call(body).then(function (d) {
       if (d.claims) apply(d);
-      if (d.ok === false && d.error === "taken") setStatus("Någon hann före er. Listan är uppdaterad.", true); else setStatus("");
+      if (d.ok === false && d.error === "taken") setStatus("Någon hann före er. Listan är uppdaterad.", true);
+      else if (d.ok === false) setStatus("Det gick inte att spara. Försök igen om en stund.", true);
+      else { setStatus(""); if (onOk) onOk(); }
     }).catch(function () { setStatus("Det gick inte att spara. Försök igen om en stund.", true); })
       .then(function () { busy = false; render(); });
   }
@@ -559,8 +561,8 @@ var COURSES = [
     var me = whoSel.value;
     if (!who) {
       b.className = "tag free"; b.textContent = "Vi tar den";
-      b.disabled = busy || !API;
-      b.addEventListener("click", function () { if (!whoSel.value) { setStatus("Välj ert sällskap först.", true); whoSel.focus(); return; } onFree(); });
+      b.disabled = busy || !API || !loaded;
+      b.addEventListener("click", function () { if (!whoSel.value) { setStatus("Välj ert sällskap först.", true); whoSel.focus(); return; } if (onFree) onFree(); });
     } else if (who === me) {
       b.className = "tag mine"; b.textContent = me + " ✕"; b.title = "Släpp";
       b.setAttribute("aria-label", "Släpp " + name);
@@ -595,16 +597,18 @@ var COURSES = [
       box.appendChild(ul);
       courseEl.appendChild(box);
     });
-    extraForm.querySelector("button").disabled = busy || !API;
+    extraForm.querySelector("button").disabled = busy || !API || !loaded;
   }
+
+  var extraMsg = document.createElement("p"); extraMsg.className = "status warn"; extraMsg.setAttribute("role", "status"); extraForm.after(extraMsg);
+  function alertNear(t) { extraMsg.textContent = t; setTimeout(function () { extraMsg.textContent = ""; }, 5000); }
 
   extraForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var name = document.getElementById("extra-name").value.trim();
-    if (!whoSel.value) { setStatus("Välj ert sällskap först.", true); whoSel.focus(); return; }
+    if (!whoSel.value) { alertNear("Välj ert sällskap högst upp i listan först."); return; }
     if (!name) return;
-    document.getElementById("extra-name").value = "";
-    act({ action: "extra", group: extraGroup.value, name: name, who: whoSel.value });
+    act({ action: "extra", group: extraGroup.value, name: name, who: whoSel.value }, function () { document.getElementById("extra-name").value = ""; });
   });
 
   var osaForm = document.getElementById("osa-form"), osaMsg = document.getElementById("osa-msg");
@@ -612,10 +616,11 @@ var COURSES = [
     e.preventDefault();
     if (!API) { osaMsg.textContent = "Svaren öppnar snart. Hör av dig till Martin så länge."; return; }
     var btn = osaForm.querySelector("button"); btn.disabled = true; osaMsg.textContent = "Skickar …";
-    call({ action: "osa", who: osaWho.value, coming: document.getElementById("osa-coming").value,
-      adults: document.getElementById("osa-adults").value, kids: document.getElementById("osa-kids").value,
+    var coming = document.getElementById("osa-coming").value, no = coming === "Nej";
+    call({ action: "osa", who: osaWho.value, coming: coming,
+      adults: no ? 0 : document.getElementById("osa-adults").value, kids: no ? 0 : document.getElementById("osa-kids").value,
       notes: "" })
-      .then(function (d) { osaMsg.textContent = d && d.ok ? "Tack! Ert svar är sparat. Vill ni ändra något skickar ni bara ett nytt svar." : "Det gick inte att skicka. Försök igen om en stund."; })
+      .then(function (d) { osaMsg.textContent = d && d.ok ? "Tack! Ert svar är sparat. Vill ni ändra något skickar ni bara ett nytt svar, så ersätter det det gamla." : "Det gick inte att skicka. Försök igen om en stund."; })
       .catch(function () { osaMsg.textContent = "Det gick inte att skicka. Försök igen om en stund."; })
       .then(function () { btn.disabled = false; });
   });
@@ -629,9 +634,11 @@ var COURSES = [
   var d = document.getElementById("cd-d"), h = document.getElementById("cd-h"), m = document.getElementById("cd-m");
   function tick() {
     var diff = Math.max(0, target - Date.now());
-    d.textContent = Math.floor(diff / 864e5);
-    h.textContent = Math.floor(diff / 36e5) % 24;
-    m.textContent = Math.floor(diff / 6e4) % 60;
+    var dd = Math.floor(diff / 864e5), hh = Math.floor(diff / 36e5) % 24, mm = Math.floor(diff / 6e4) % 60;
+    d.textContent = dd; h.textContent = hh; m.textContent = mm;
+    d.nextElementSibling.textContent = dd === 1 ? "dag" : "dagar";
+    h.nextElementSibling.textContent = hh === 1 ? "timme" : "timmar";
+    m.nextElementSibling.textContent = mm === 1 ? "minut" : "minuter";
   }
   tick(); setInterval(tick, 30000);
 
