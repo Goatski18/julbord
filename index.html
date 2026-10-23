@@ -615,7 +615,7 @@ var COURSES = [
     call({ action: "osa", who: osaWho.value, coming: document.getElementById("osa-coming").value,
       adults: document.getElementById("osa-adults").value, kids: document.getElementById("osa-kids").value,
       notes: "" })
-      .then(function () { osaMsg.textContent = "Tack! Ert svar är sparat."; })
+      .then(function (d) { osaMsg.textContent = d && d.ok ? "Tack! Ert svar är sparat. Vill ni ändra något skickar ni bara ett nytt svar." : "Det gick inte att skicka. Försök igen om en stund."; })
       .catch(function () { osaMsg.textContent = "Det gick inte att skicka. Försök igen om en stund."; })
       .then(function () { btn.disabled = false; });
   });
