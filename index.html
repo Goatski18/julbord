@@ -452,7 +452,7 @@ select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px s
         </select>
       </label>
       <label>Antal vuxna
-        <input type="number" id="osa-adults" min="0" max="20" required>
+        <input type="number" id="osa-adults" min="0" max="20">
       </label>
       <label>Antal barn
         <input type="number" id="osa-kids" min="0" max="20" value="0">
@@ -617,6 +617,7 @@ var COURSES = [
     if (!API) { osaMsg.textContent = "Svaren öppnar snart. Hör av dig till Martin så länge."; return; }
     var btn = osaForm.querySelector("button"); btn.disabled = true; osaMsg.textContent = "Skickar …";
     var coming = document.getElementById("osa-coming").value, no = coming === "Nej";
+    if (!no && !document.getElementById("osa-adults").value) { osaMsg.textContent = "Fyll i hur många vuxna ni blir."; btn.disabled = false; return; }
     call({ action: "osa", who: osaWho.value, coming: coming,
       adults: no ? 0 : document.getElementById("osa-adults").value, kids: no ? 0 : document.getElementById("osa-kids").value,
       notes: "" })
